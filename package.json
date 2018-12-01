@@ -1,0 +1,17 @@
+{
+  "name": "phrase-blacklist",
+  "version": "1.0.2",
+  "description": "Filter out strings with banned words and bypasses some evasion",
+  "main": "WordFilter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "word",
+    "filter",
+    "text",
+    "evasion"
+  ],
+  "author": "Jonathon Powell",
+  "license": "ISC"
+}
