@@ -34,14 +34,29 @@ class WordFilter {
 	BanPhrase(phrase){
 		this.bannedContainment.push(phrase)
 	}
+
+	//Ability to multiple banned phrases
+	//ex. Practical for adding a bunch of phrases you already have in an array
+	BanPhrases(arr){
+		arr.forEach(phrase => {
+			this.BanPhrase(phrase)
+		});
+	}
 	
-	//Ability to unban phrases
+	//Ability to unban an individual phrase
 	UnbanPhrase(phrase){
 		let index = this.bannedContainment.indexOf(phrase)
 		if(index !== -1)
 			this.bannedContainment.splice(index, 1);
 	}
-    
+	
+	//Ability to unban multiple phrases
+	UnbanPhrases(arr){
+		arr.forEach(phrase => {
+			this.UnbanPhrase(phrase)
+		});
+	}
+
 	//Translate a string like c0ck to cock
 	EvasionTranslate(text){
 		//Grab each evasion char replace with possible original char
