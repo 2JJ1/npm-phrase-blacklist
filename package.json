@@ -1,6 +1,6 @@
 {
   "name": "phrase-blacklist",
-  "version": "1.1.12",
+  "version": "1.2.1",
   "description": "Filter out strings with banned words and bypasses some evasion",
   "main": "index.js",
   "repository": {

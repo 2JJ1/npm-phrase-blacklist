@@ -1,4 +1,5 @@
 
+
 # phrase-blacklist
 
 Filter out strings with banned words and bypasses some evasion
@@ -17,25 +18,39 @@ Using NPM
 
 #### Check if text is clean
 
-    phraseBlacklist.isClean('fucc that hurts!!', <optional options>) 
+    phraseBlacklist.isClean('fucc that hurts!!', <options object>) 
     //Returns true if word is safe
     //false in this case
     
-By default, it enables all options:
+##### options: 
+##### [note: each option runs default if not defined.  will not trigger action if set false]
+innerHTMLOnly : boolean
+//Strips HTML elements from the text
+//defaults to false
 
-    {evasionBypass: true, clearDuplicates: {fromEachWord: true}}
-Specify an empty object to only check against the exact input
+clearDuplicates : object
+//Removes duplicate characters from the text
+//defaults to {fromEachWord: true}
+
+translateMaskChars : boolean
+//Prevent filter evasion by translating characters to another (ex. @ = a)
+//defaults to true
     
 
-#### Get potential original message from evasion
+#### Get potential original message from mask characters
 
-    phraseBlacklist.EvasionTranslate('I n33d t0 $h1t!!') 
+    phraseBlacklist.translateMaskChars('I n33d t0 $h1t!!') 
     //Returns the potential original message
 Clients may try to bypass a chat filter in place by using characters similar, yet different to the intential characters. 
 
 ### Remove repeat characters
     phraseBlacklist.RemoveRepeatCharacters('heeeeeckkkkkkk youu!')
     //Returns, 'heck you'
+
+### Strip HTML tags
+
+     phraseBlacklist.ExtractInnerHTML('<p attribute="hello">world</p>')
+     //Returns, 'world'
     
 #### Add to blacklist
 

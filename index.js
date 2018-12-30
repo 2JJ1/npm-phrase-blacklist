@@ -11,10 +11,8 @@ class WordFilter {
 		//A string entirely should not have any of these words inside. 
 		// ex. sexy, fucker, pornagraphy, etc
         this.bannedContainment = [
-			//Default only bans bad words
-			'sex', 'fuck', 'pussy', 'dick', 'cock', 'bitch', 'porn', 'ass', 'boob', 'shit',
-			//bypasses. Some proper words contain them, but I've only includes those with words that are uncommon
-			'fucc', 'schit', 'dicc'
+			//Default only bans plain English bad words
+			'sex', 'fuck', 'pussy', 'dick', 'cock', 'bitch', 'porn', 'asshole', 'boob', 'shit', 'cunt'
 		]
 
 		this.evasionChars = [
@@ -43,7 +41,7 @@ class WordFilter {
 	}
     
 	//Translate a string like c0ck to cock
-	EvasionTranslate(text){
+	TranslateMaskChars(text){
 		//Grab each evasion char replace with possible original char
 		for(let index in this.evasionChars){
 			let evasionChar = this.evasionChars[index]
@@ -72,25 +70,51 @@ class WordFilter {
 		return translation
 	}
 	
-	isClean(text, options={evasionBypass: true, clearDuplicates: {fromEachWord: true}}){
-		if('clearDuplicates' in options){
-			//Assume user wants to clear duplicates because it is in the options
-			let CleanedDuplicated = this.RemoveRepeatCharacters(text, options.clearDuplicates.fromEachWord);
+	//Extracts inner html from html string
+	ExtractInnerHTML(html){
+		return html.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/g, "")
+	}
+	
+	isClean(text, options={}){
+		// Options setup
+		if(typeof options === "object"){
+			//By  default, don't strip HTML
+			if(options.innerHTMLOnly === true){
+				//Allows for attributes or custom elements to go unaffected
+				text = this.ExtractInnerHTML(text)
+			}
+
+			//Will run unless set otherwise
+			if(options.clearDuplicates !== false){
+				//Will prevent some evasion via character duplication
+				//ex. fucckkk will translate as fuck and fail.
+				let fromEachWord = true
+				if (typeof options.clearDuplicates === "object" && 'fromEachWord' in options.clearDuplicates)
+					fromEachWord = options.clearDuplicates.fromEachWord; 
+				
+				let CleanedDuplicated = this.RemoveRepeatCharacters(text, fromEachWord);
+				
+				//Because words like cock would translate to cok, we do a layered check instead of redefining text variable
+				if(!this.isClean(CleanedDuplicated, options={
+					evasionBypass: options.evasionBypass,
+					clearDuplicates: false //Disable for next run so this block won't run infinitely
+				}))
+					return false;
+			}
 			
-			//Recheck
-			if(!this.isClean(CleanedDuplicated, options={evasionBypass: options.evasionBypass}))
-				return false;
+			//Will run unless set otherwise
+			if(options.translateMaskChars !== false)
+				text = this.TranslateMaskChars(text);
 		}
 		
-		if(options.evasionBypass === true)
-			text = this.EvasionTranslate(text);
-		
+		// Start cleaning
 		for(let index in this.bannedContainment){
 			let bannedPhrase = this.bannedContainment[index]
 			if(text.indexOf(bannedPhrase) !== -1)
 				//String contains a banned phrase
 				return false;
 		}
+		
 		//No early exit, so string must be fine
 		return true;
 	}
