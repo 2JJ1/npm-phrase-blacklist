@@ -26,33 +26,33 @@ class WordFilter {
 			['v', 'u'] // fvck = fuck
 		]
     }
-	
+
 	//Ability to add other banned phrases
 	//ex. Practical for filtering out links by banning https://
-	BanPhrase(phrase){
-		this.bannedContainment.push(phrase)
-	}
-
-	//Ability to multiple banned phrases
-	//ex. Practical for adding a bunch of phrases you already have in an array
-	BanPhrases(arr){
-		arr.forEach(phrase => {
-			this.BanPhrase(phrase)
-		});
-	}
-	
-	//Ability to unban an individual phrase
-	UnbanPhrase(phrase){
-		let index = this.bannedContainment.indexOf(phrase)
-		if(index !== -1)
-			this.bannedContainment.splice(index, 1);
+	BanPhrases(phrases){
+		if(Array.isArray(phrases)){
+			phrases.forEach(phrase => {
+				this.BanPhrases(phrase)
+			});
+		} else{
+			//Assume is a string
+			if(this.bannedContainment.indexOf(phrases) === -1)
+				this.bannedContainment.push(phrases)
+		}
 	}
 	
-	//Ability to unban multiple phrases
-	UnbanPhrases(arr){
-		arr.forEach(phrase => {
-			this.UnbanPhrase(phrase)
-		});
+	//Ability to unban a phrase
+	UnbanPhrases(phrases){
+		if(Array.isArray(phrases)){
+			phrases.forEach(phrase => {
+				this.UnbanPhrases(phrase)
+			});
+		} else{
+			//Assume is a string
+			let index = this.bannedContainment.indexOf(phrases)
+			if(index !== -1)
+				this.bannedContainment.splice(index, 1);
+		}
 	}
 
 	//Translate a string like c0ck to cock
