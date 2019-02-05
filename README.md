@@ -64,3 +64,8 @@ Clients may try to bypass a chat filter in place by using characters similar, ye
     //Removes 'https://' to the list of banned phrases (If so added)
     //isClean('https://') would then return true
 
+# Contributing
+
+To contribute to `phrase-blacklist` you first should fork the repository on GitHub and clone it to your local machine.
+
+After making your changes you should first run the existing tests using `npm test` and then add any new relevent tests if appropriate. If you are fixing a bug we recommend you create a test that tests your fix to prevent regressions in the future. 
