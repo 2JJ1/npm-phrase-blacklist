@@ -1,4 +1,4 @@
-const phraseBlacklist = require('../index');
+const phraseBlacklist = require('./src/index');
 
 test('Check adding a phrase using BanPhrase then removing using UnbanPhrase', () => {
     const oldPhraseCount = phraseBlacklist.bannedContainment.length;
