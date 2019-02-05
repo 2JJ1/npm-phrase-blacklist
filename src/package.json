@@ -3,24 +3,20 @@
   "version": "1.2.1",
   "description": "Filter out strings with banned words and bypasses some evasion",
   "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/2JJ1/phrase-blacklist.git"
   },
   "author": "Jonathon Powell",
-  "contributors": [{
-    "name": "Jonathan Fielding",
-    "url" : "https://www.jonathanfielding.com"
-  }],
+  "contributors": [
+    {
+      "name": "Jonathan Fielding",
+      "url": "https://www.jonathanfielding.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/2JJ1/phrase-blacklist/issues"
   },
   "homepage": "https://github.com/2JJ1/phrase-blacklist#readme",
-  "dev-dependencies": {
-    "jest": "^23.6.0"
-  }
 }
