@@ -15,10 +15,17 @@ class WordFilter {
 			'sex', 'fuck', 'pussy', 'dick', 'cock', 'bitch', 'porn', 'asshole', 'boob', 'shit', 'cunt'
 		]
 
+		//A string should not have this words in it
+		// ex. " fag " will be rejected
+		// Put phrases here if some words use something safely. Ex, "fageol"
+		this.bannedWords = [
+			'fag', 'faggot'
+		]
+
 		this.evasionChars = [
 			['@','a'], // @ss = ass
 			['1','i'], // b1tch = bitch
-			['4','a'], // 4ass = ass
+			['4','a'], // 4ss = ass
 			['$','s'], // $hit = shit
 			['0','o'], // c0ck = cock
 			['3','e'], // s3x = sex
@@ -52,6 +59,34 @@ class WordFilter {
 			let index = this.bannedContainment.indexOf(phrases)
 			if(index !== -1)
 				this.bannedContainment.splice(index, 1);
+		}
+	}
+
+	//Bans a word
+	//Maybe block less sensitive words like "idiot"
+	BanWords(words){
+		if(Array.isArray(words)){
+			words.forEach(phrase => {
+				this.BanWords(phrase)
+			});
+		} else{
+			//Assume is a string
+			if(this.bannedWords.indexOf(words) === -1)
+				this.bannedWords.push(words)
+		}
+	}
+	
+	//Unban a word
+	UnbanWords(words){
+		if(Array.isArray(words)){
+			words.forEach(phrase => {
+				this.UnbanWords(phrase)
+			});
+		} else{
+			//Assume is a string
+			let index = this.bannedWords.indexOf(words)
+			if(index !== -1)
+				this.bannedWords.splice(index, 1);
 		}
 	}
 
@@ -93,13 +128,13 @@ class WordFilter {
 	isClean(text, options={}){
 		// Options setup
 		if(typeof options === "object"){
-			//By  default, don't strip HTML
+			//Only strip HTML if requested
 			if(options.innerHTMLOnly === true){
 				//Allows for attributes or custom elements to go unaffected
 				text = this.ExtractInnerHTML(text)
 			}
 
-			//Will run unless set otherwise
+			//Remove duplicate characters unless requested otherwise
 			if(options.clearDuplicates !== false){
 				//Will prevent some evasion via character duplication
 				//ex. fucckkk will translate as fuck and fail.
@@ -113,21 +148,47 @@ class WordFilter {
 				if(!this.isClean(CleanedDuplicated, options={
 					evasionBypass: options.evasionBypass,
 					clearDuplicates: false //Disable for next run so this block won't run infinitely
-				}))
+				})){
 					return false;
+				}
 			}
 			
-			//Will run unless set otherwise
+			//Convert characters unless requested otherwise
 			if(options.translateMaskChars !== false)
 				text = this.TranslateMaskChars(text);
 		}
 		
 		// Start cleaning
+		//Check for banned phrases
 		for(let index in this.bannedContainment){
 			let bannedPhrase = this.bannedContainment[index]
 			if(text.indexOf(bannedPhrase) !== -1)
 				//String contains a banned phrase
 				return false;
+		}
+		//Check for banned words
+		for(let index in this.bannedWords){
+			let bannedWord = this.bannedWords[index]
+			let start = text.indexOf(bannedWord)
+			if(start !== -1) { //String contains a banned word
+				// Check if found banned word is actually a word
+				var isWord = true
+				//Check beginning of word for space
+				if(start !== 0) {
+					if(text[start - 1] !== " ") {
+						isWord = false
+					}
+				} //No need to check for space at the beginning of a string
+
+				//Check end of word for a space
+				if((start + bannedWord.length) !== text.length) {
+					if(text[start + bannedWord.length] !== " "){
+						isWord = false
+					}
+				} //No need to check for space at the end of the string
+
+				if(isWord) return false
+			}
 		}
 		
 		//No early exit, so string must be fine

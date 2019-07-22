@@ -1,5 +1,3 @@
-
-
 # phrase-blacklist
 
 Filter out strings with banned words and bypasses some evasion
@@ -9,7 +7,9 @@ Filter out strings with banned words and bypasses some evasion
 
 Using NPM
 
-    npm i phrase-blacklist
+    npm i phrase-blacklist  
+
+THIS IS IN ALPHA. Please save version numbers in your package.json as I may be making many breaking changes in the future. Saving your package version will keep your package version the same, thus unaffected by major changes.
 
 # Example
 #### Import
