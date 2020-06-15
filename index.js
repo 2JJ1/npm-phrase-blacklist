@@ -112,6 +112,9 @@ class WordFilter {
 	}
 	
 	isClean(text, options={}){
+		//Otherwise, "Porn" would pass and "porn" would reject
+		text = text.toLowerCase()
+		
 		// Options setup
 		if(typeof options === "object"){
 			//Only strip HTML if requested
