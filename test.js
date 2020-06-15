@@ -76,5 +76,5 @@ phraseBlackList.UnbanWords(phraseToUnban)
 console.log("Updated banned words:", JSON.stringify(phraseBlackList.bannedWords))
 
 console.log("\nTranslating special characters")
-var testTranslate = ["𝕙𝕖𝕔𝕜", "𝓱𝓮𝓬𝓴", "ｈｅｃｋ", "ˢˣᵉ"]
+var testTranslate = ["𝕙𝕖𝕔𝕜", "𝓱𝓮𝓬𝓴", "ｈｅｃｋ", "ˢˣᵉ", "$31@"]
 testTranslate.forEach(phrase => console.log(`${phrase} = ${phraseBlackList.TranslateMaskChars(phrase)}`))
