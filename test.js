@@ -40,7 +40,7 @@ console.log("Updated banned phrases:", JSON.stringify(phraseBlackList.bannedCont
 console.log("\nDefault banned words:", JSON.stringify(phraseBlackList.bannedWords))
 
 console.log("Below should all reject")
-var testStrings = ['fag', ' fag', 'fag ', ' fag ']
+var testStrings = ['fag', ' fag', 'fag ', ' fag ', "FaG", "FAG"]
 for(var i=0; i<testStrings.length; i++){
     var isClean = phraseBlackList.isClean(testStrings[i])
     console.log(`"${testStrings[i]}" : ${isClean}`)
