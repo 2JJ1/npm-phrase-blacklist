@@ -6,6 +6,8 @@
 // Translate evasion for words like B1tch, H4x
 // Check if any of the banned words are in string
 
+const latinize = require("./latinize")
+
 class WordFilter {
     constructor( config ) {
 		//A string entirely should not have any of these words inside. 
@@ -20,17 +22,6 @@ class WordFilter {
 		// Put phrases here if some words use something safely. Ex, "fageol"
 		this.bannedWords = [
 			'fag', 'faggot'
-		]
-
-		this.evasionChars = [
-			['@','a'], // @ss = ass
-			['1','i'], // b1tch = bitch
-			['4','a'], // 4ss = ass
-			['$','s'], // $hit = shit
-			['0','o'], // c0ck = cock
-			['3','e'], // s3x = sex
-			['8','b'], // 8oob = boob
-			['v', 'u'] // fvck = fuck
 		]
     }
 
@@ -93,12 +84,7 @@ class WordFilter {
 	//Translate a string like c0ck to cock
 	TranslateMaskChars(text){
 		//Grab each evasion char replace with possible original char
-		for(let index in this.evasionChars){
-			let evasionChar = this.evasionChars[index]
-			text = text.replace(evasionChar[0], evasionChar[1])
-		}
-		
-		return text
+		return [...text].map(char => latinize[char] || char).join('').toLowerCase()
 	}
 	
 	//Would translate a word like fuuuuckkkkkk to fuck
