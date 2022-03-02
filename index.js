@@ -142,8 +142,8 @@ class WordFilter {
 				}
 			}
 			
-			//Convert characters unless requested otherwise
-			if(options.translateMaskChars !== false)
+			//Convert special characters to similar letter
+			if(options.translateMaskChars === true)
 				text = this.TranslateMaskChars(text);
 		}
 		
