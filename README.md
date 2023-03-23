@@ -19,8 +19,8 @@ THIS IS IN ALPHA. Please save version numbers in your package.json as I may be m
 #### Check if text is clean
 
     phraseBlacklist.isClean('fucc that hurts!!', <options object>) 
-    //Returns true if word is safe
-    //false in this case
+    //Returns true if text is safe
+    //Returns a string, the detected bad word, if the text contains a banned phrase
     
 ##### options: 
 ##### [note: each option runs default if not defined.  will not trigger action if set false]
@@ -29,7 +29,7 @@ innerHTMLOnly : boolean
 //defaults to false
 
 clearDuplicates : object
-//Removes duplicate characters from the text
+//Removes duplicate characters from the text. Does a layered check using the converted text.
 //defaults to {fromEachWord: true}
 
 translateMaskChars : boolean
@@ -37,7 +37,7 @@ translateMaskChars : boolean
 //defaults to true
     
 
-#### Get potential original message from mask characters
+#### Get potential original message from masked characters
 
     phraseBlacklist.translateMaskChars('I n33d t0 $h1t!!') 
     //Returns the potential original message

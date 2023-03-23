@@ -4,14 +4,16 @@ const phraseBlackList = require('./index')
 // Banned phrases
 // ---------------------------------------- //
 
+let testResponse = (isCleanResult) => isCleanResult === true ? "Passed" : `Detected "${isCleanResult}"`
+
 console.log("\nDefault banned phrases:", JSON.stringify(phraseBlackList.bannedContainment))
 
 var testStrings = ['c0ck', 'sh1t', 'b1tch', 'wordyshit']
 
-console.log("Below should all fail")
+console.log("Below should all detect")
 for(var i=0; i<testStrings.length; i++){
-    var isClean = phraseBlackList.isClean(testStrings[i])
-    console.log(`"${testStrings[i]}" : ${isClean}`)
+    let isClean = phraseBlackList.isClean(testStrings[i])
+    console.log(`"${testStrings[i]}" : ${testResponse(isClean)}`)
 }
 var phrasesToBan = ["noob", "skiddie", "retard"]
 console.log("\nBanning:", JSON.stringify(phrasesToBan))
@@ -43,18 +45,17 @@ console.log("Below should all reject")
 var testStrings = ['fag', ' fag', 'fag ', ' fag ', "FaG", "FAG"]
 for(var i=0; i<testStrings.length; i++){
     var isClean = phraseBlackList.isClean(testStrings[i])
-    console.log(`"${testStrings[i]}" : ${isClean}`)
+    console.log(`"${testStrings[i]}" : ${testResponse(isClean)}`)
 }
 
-console.log("Below should all pass")
+console.log("\nBelow should all pass")
 testStrings = ['fageot', 'fagit']
 for(var i=0; i<testStrings.length; i++){
     var isClean = phraseBlackList.isClean(testStrings[i])
-    console.log(`"${testStrings[i]}" : ${isClean}`)
+    console.log(`"${testStrings[i]}" : ${testResponse(isClean)}`)
 }
 
-console.log("Test ban/unban")
-
+console.log("\nTest ban/unban")
 var phrasesToBan = ["noob", "skiddie", "retard"]
 console.log("\nBanning:", JSON.stringify(phrasesToBan))
 phraseBlackList.BanWords(phrasesToBan)
