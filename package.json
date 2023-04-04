@@ -9,10 +9,7 @@
   },
   "author": "Jonathon Powell",
   "contributors": [
-    {
-      "name": "Jonathan Fielding",
-      "url": "https://www.jonathanfielding.com"
-    }
+    "Jonathan Fielding (https://www.jonathanfielding.com)"
   ],
   "license": "MIT",
   "bugs": {
@@ -21,5 +18,12 @@
   "homepage": "https://github.com/2JJ1/phrase-blacklist#readme",
   "scripts": {
     "test": "cls && node test.js"
-  }
+  },
+  "keywords": [
+    "blacklist",
+    "ban",
+    "words",
+    "phrase",
+    "blacklist"
+  ]
 }
