@@ -14,7 +14,7 @@ class WordFilter {
 		// ex. sexy, fucker, pornagraphy, etc
         this.bannedContainment = [
 			//Default only bans plain English bad words
-			"nigger", "nigga", 'sex', 'fuck', 'pussy', 'dick', 'cock', 'bitch', 'porn', 'asshole', 'shit', 'cunt'
+			"nigger", "nigga", 'sex', 'fuck', 'pussy', 'dick', 'cock', 'bitch', 'porn', 'asshole', 'shit', 'cunt', '卐', '卍'
 		]
 
 		//A string should not have this words in it
